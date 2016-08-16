@@ -1,0 +1,15 @@
+parameter_defaults:
+  NovaComputeExtraConfig:
+    nova::compute::pci_passthrough: '"[{\"address\":\"01:10.*\",\"physical_network\":\"sriov\"}]"'
+    neutron::agents::ml2::ovs::firewall_driver: ['neutron.agent.firewall.NoopFirewallDriver']
+    neutron::agents::ml2::sriov::physical_device_mappings: ['sriov:eth2']
+    compute_classes:
+      - neutron::agents::ml2::sriov
+
+  controllerExtraConfig:
+    nova::scheduler::filter::scheduler_default_filters: ["RetryFilter","AvailabilityZoneFilter","RamFilter","ComputeFilter","ComputeCapabilitiesFilter","ImagePropertiesFilter","CoreFilter","ServerGroupAntiAffinityFilter","ServerGroupAffinityFilter","PciPassthroughFilter"]
+    neutron::agents::dhcp::enable_isolated_metadata: true
+    neutron::plugins::ml2::supported_pci_vendor_devs: ['8086:10fb']
+    neutron::plugins::ml2::mechanism_drivers: ['openvswitch','sriovnicswitch']
+    neutron::plugins::ml2::sriov_agent_required: ['true']
+ 

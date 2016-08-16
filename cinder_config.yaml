@@ -1,0 +1,28 @@
+parameters:
+  CinderEnableIscsiBackend: false
+  CinderEnableRbdBackend: false
+  CinderEnableNfsBackend: false
+  NovaEnableRbdBackend: false
+  GlanceBackend: swift
+
+parameter_defaults:
+  ExtraConfig:
+    cinder::config::cinder_config:
+      emc_backend/volume_driver:
+        value: cinder.volume.drivers.emc.emc_cli_iscsi.EMCCLIISCSIDriver
+      emc_backend/iscsi_ip_address:
+        value: 1.1.1.1
+      emc_backend/san_ip:
+        value: 2.2.2.2
+      emc_backend/san_password:
+        value: abc
+      emc_backend/storage_vnx_pool:
+        value: vnx_pool_name
+      emc_backend/default_timeout:
+        value: 60
+      emc_backend/san_login:
+        value: sample_login_name
+      emc_backend/volume_backend_name:
+        value: emc_vnx_backend
+
+    cinder_user_enabled_backends: ['emc_backend'] 
