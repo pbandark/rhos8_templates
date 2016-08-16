@@ -1,0 +1,7 @@
+parameter_defaults:
+  controllerExtraConfig:
+    nova::scheduler::filter::scheduler_default_filters: ["RetryFilter","AvailabilityZoneFilter","RamFilter","ComputeFilter","ComputeCapabilitiesFilter","ImagePropertiesFilter","ServerGroupAntiAffinityFilter","ServerGroupAffinityFilter","PciPassthroughFilter"]
+    neutron::agents::dhcp::enable_isolated_metadata: true
+
+  NovaComputeExtraConfig:
+    nova::compute::pci_passthrough: '"[{\"devname\":\"enp4s0\", \"physical_network\":\"sriov1\"}]"'

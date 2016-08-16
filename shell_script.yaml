@@ -1,0 +1,28 @@
+heat_template_version: 2014-10-16
+
+description: >
+  Extra hostname configuration
+
+parameters:
+  servers:
+    type: json
+
+resources:
+  ExtraConfig:
+    type: OS::Heat::SoftwareConfig
+    properties:
+      group: script
+      config: |
+        #!/bin/sh
+        openstack-config  --set /etc/neutron/plugins/ml2/ml2_conf_sriov.ini ml2_sriov supported_pci_vendor_devs 15b3:1004
+        openstack-config  --set /etc/neutron/plugins/ml2/ml2_conf.ini ml2 mechanism_drivers 'openvswitch','sriovnicswitch'
+        openstack-config  --set /etc/neutron/plugins/ml2/ml2_conf_sriov.ini ml2_sriov agent_required False
+
+
+  ExtraDeployments:
+    type: OS::Heat::SoftwareDeployments
+    properties:
+      servers:  {get_param: servers}
+      config: {get_resource: ExtraConfig}
+      actions: ['CREATE','UPDATE']
+
